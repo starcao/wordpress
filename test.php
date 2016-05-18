@@ -9,9 +9,9 @@ function listDir($dir)
             {
 				if($file == '.svn')
 					removeDir($dir."/.svn/");
-				elseif(is_dir($dir."/".$file)) && $file != "." && $file != "..")
+				elseif(is_dir($dir."/".$file) && $file != "." && $file != "..")
 					listDir($dir."/".$file);
-					
+			}		
             closedir($dh);
         }
     }
