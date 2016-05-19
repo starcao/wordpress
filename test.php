@@ -19,7 +19,7 @@ function listDir($dir)
 
 function removeDir($dirName) 
 { 
-    if(! is_dir($dirName)) 
+    if(!is_dir($dirName)) 
     { 
         return false; 
     } 
@@ -36,5 +36,25 @@ function removeDir($dirName)
     return rmdir($dirName) ; 
 }
 
+function uPermission($dir)
+{
+	if(is_dir($dir))
+    {
+        if($dh = opendir($dir))
+        {
+            while(($file = readdir($dh)) !== false)
+            {
+				if(is_dir($dir."/".$file) && $file != "." && $file != "..")
+				{
+					uPermission($dir."/".$file);
+					chmod($dir."/".$file, 0755);
+				}
+			}		
+            closedir($dh);
+        }
+    }
+}
+
 $dir = __DIR__;
-listDir($dir);
+uPermission($dir);
+//listDir($dir);
